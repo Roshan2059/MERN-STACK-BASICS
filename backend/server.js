@@ -1,14 +1,15 @@
 //hamlai jun jun package chainxa teslai require() garney
 require("dotenv").config();
 const express = require("express");
+const mongoose = require("mongoose");
 const workoutRoutes = require("./routes/workouts");
 //tala ko express() vaneko chai mathiko const express vanera lekhya xa ni!! ho tyo ho
 const app = express();
 
-// yesle chai requests haru lai listen gardo raixa
-app.listen(process.env.PORT, () => {
-  console.log("Roshan, timi dhukka vara code gara ma listen gardai xu!!");
-});
+// // yesle chai requests haru lai listen gardo raixa
+// app.listen(process.env.PORT, () => {
+//   console.log("Roshan, timi dhukka vara code gara ma listen gardai xu!!");
+// });
 
 //yespaxi chai euta nodemon vanni package install gariyoo
 
@@ -22,6 +23,19 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/workouts", workoutRoutes);
+
+//yesle chai db connect connect garxa
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    // yesle chai requests haru lai listen gardo raixa
+    app.listen(process.env.PORT, () => {
+      console.log("Roshan, timi dhukka vara code gara ma listen gardai xu!!");
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 //tespaxi chai simply django ma  garya jastai url routes haryu dinu pardo raixa!!
 // app.get("/", (req, res) => {
